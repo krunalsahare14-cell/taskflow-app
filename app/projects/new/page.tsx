@@ -53,24 +53,24 @@ export default function NewProjectPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700">Project Name</label>
             <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="e.g., Website Redesign"
-              required
-            />
+  type="text"
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+  placeholder="e.g., Website Redesign"
+  required
+/>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Description (Optional)</label>
             <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={4}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              placeholder="What is this project about?"
-            />
+  value={description}
+  onChange={(e) => setDescription(e.target.value)}
+  rows={4}
+  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+  placeholder="What is this project about?"
+/>
           </div>
 
           <div className="flex justify-end gap-3 pt-4">

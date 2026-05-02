@@ -26,7 +26,7 @@ export async function POST(req: Request) {
         email,
         password: hashedPassword,
         // For testing purposes, we'll make everyone an ADMIN so you can test project creation
-        role: "ADMIN", 
+        role: "MEMBER", 
       },
     });
 

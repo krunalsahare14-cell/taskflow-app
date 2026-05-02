@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import TaskStatusSelect from "@/components/TaskStatusSelect";
 
 export default async function DashboardPage() {
   // 1. Check if the user is logged in
@@ -59,22 +60,18 @@ export default async function DashboardPage() {
           
           {/* Projects Section (Admins Only) */}
           {user.role === "ADMIN" && (
-            <div className="rounded-lg bg-white p-6 shadow-sm border border-gray-100">
-              <h2 className="mb-4 text-xl font-semibold text-gray-900">Your Projects</h2>
-              {projects.length === 0 ? (
-                <p className="text-sm text-gray-500">No projects yet. Create one to get started!</p>
-              ) : (
-                <ul className="space-y-3">
-                  {projects.map(project => (
-                    <li key={project.id} className="rounded-md border border-gray-200 p-4 hover:border-blue-500 transition-colors">
-                      <h3 className="font-medium text-gray-900">{project.name}</h3>
-                      {project.description && <p className="text-sm text-gray-500">{project.description}</p>}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
+  <div className="flex gap-4">
+    <Link href="/team" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      Manage Team
+    </Link>
+    <Link href="/projects/new" className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      + New Project
+    </Link>
+    <Link href="/tasks/new" className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">
+      + New Task
+    </Link>
+  </div>
+)}
 
           {/* Tasks Section (Everyone) */}
           <div className={`rounded-lg bg-white p-6 shadow-sm border border-gray-100 ${user.role !== "ADMIN" ? "md:col-span-2" : ""}`}>
@@ -91,12 +88,7 @@ export default async function DashboardPage() {
                       <h3 className="font-medium text-gray-900">{task.title}</h3>
                       <p className="text-xs text-gray-500">Project: {task.project.name}</p>
                     </div>
-                    <span className={`rounded-full px-3 py-1 text-xs font-semibold
-                      ${task.status === "TODO" ? "bg-gray-100 text-gray-800" : 
-                        task.status === "IN_PROGRESS" ? "bg-yellow-100 text-yellow-800" : 
-                        "bg-green-100 text-green-800"}`}>
-                      {task.status.replace("_", " ")}
-                    </span>
+                    <TaskStatusSelect task={task} />
                   </li>
                 ))}
               </ul>

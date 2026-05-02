@@ -32,3 +32,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
   }
 }
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
+
+    const projects = await prisma.project.findMany({
+      where: { ownerId: session.user.id }
+    });
+
+    return NextResponse.json(projects);
+  } catch (error) {
+    return NextResponse.json({ message: "Something went wrong" }, { status: 500 });
+  }
+}

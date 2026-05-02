@@ -29,7 +29,7 @@ export default async function HomePage() {
             Get Started
           </Link>
           <a
-            href="https://github.com/your-username/taskflow-app" // Update this link to your repo!
+            href="https://github.com/krunalsahare14-cell/taskflow-app" // Update this link to your repo!
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg bg-white px-8 py-3 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-all"

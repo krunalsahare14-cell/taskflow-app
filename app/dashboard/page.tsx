@@ -4,9 +4,9 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import TaskStatusSelect from "@/components/TaskStatusSelect";
+import LogoutButton from "@/components/LogoutButton";
 
 export default async function DashboardPage() {
-  // 1. Check if the user is logged in
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -15,7 +15,6 @@ export default async function DashboardPage() {
 
   const user = session.user;
 
-  // 2. Fetch data based on their role
   const projects = user.role === "ADMIN"
     ? await prisma.project.findMany({ where: { ownerId: user.id } })
     : [];
@@ -28,17 +27,18 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="mx-auto max-w-5xl">
-        
-        {/* Header Section - Buttons belong up here! */}
         <div className="mb-8 flex items-center justify-between rounded-lg bg-white p-6 shadow-sm border border-gray-100">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-500">
-              Welcome back, {user.name || user.email} 
-              <span className="ml-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+            <div className="flex items-center gap-3 mt-1">
+              <p className="text-gray-500">
+                Welcome back, {user.name || user.email}
+              </p>
+              <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
                 {user.role}
               </span>
-            </p>
+              <LogoutButton />
+            </div>
           </div>
           {user.role === "ADMIN" && (
             <div className="flex gap-4">
@@ -56,8 +56,6 @@ export default async function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          
-          {/* Projects Section (Admins Only) */}
           {user.role === "ADMIN" && (
             <div className="rounded-lg bg-white p-6 shadow-sm border border-gray-100">
               <h2 className="mb-4 text-xl font-semibold text-gray-900">Your Projects</h2>
@@ -76,7 +74,6 @@ export default async function DashboardPage() {
             </div>
           )}
 
-          {/* Tasks Section (Everyone) */}
           <div className={`rounded-lg bg-white p-6 shadow-sm border border-gray-100 ${user.role !== "ADMIN" ? "md:col-span-2" : ""}`}>
             <h2 className="mb-4 text-xl font-semibold text-gray-900">
               {user.role === "ADMIN" ? "Team Tasks" : "Your Assigned Tasks"}
@@ -91,15 +88,12 @@ export default async function DashboardPage() {
                       <h3 className="font-medium text-gray-900">{task.title}</h3>
                       <p className="text-xs text-gray-500">Project: {task.project.name}</p>
                     </div>
-                    
-                    {/* The Interactive Status Dropdown */}
                     <TaskStatusSelect task={task} />
                   </li>
                 ))}
               </ul>
             )}
           </div>
-
         </div>
       </div>
     </div>
